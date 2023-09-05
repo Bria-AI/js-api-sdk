@@ -1,0 +1,555 @@
+<html>
+  <head>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="sam_canvas"> </canvas>
+    <img
+      crossorigin="Anonymous"
+      id="main_image"
+      class="hidden"
+      src="https://temp.bria.ai/images/86f9986390596e8f.jpg"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="panoptic_img"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_panoptic.png"
+    />
+
+    <img
+      crossorigin="Anonymous"
+      id="mask_1"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_1.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_2"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_2.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_3"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_3.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_4"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_4.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_5"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_5.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_6"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_6.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_7"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_7.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_8"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_8.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_9"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_9.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_10"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_10.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_11"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_11.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_12"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_12.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_13"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_13.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_14"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_14.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_15"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_15.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_16"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_16.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_17"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_17.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_18"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_18.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_19"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_19.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_20"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_20.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_21"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_21.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_22"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_22.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_23"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_23.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_24"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_24.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_25"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_25.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_26"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_26.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_27"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_27.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_28"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_28.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_29"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_29.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_30"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_30.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_31"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_31.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_32"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_32.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_33"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_33.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_34"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_34.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_35"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_35.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_36"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_36.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_37"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_37.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_38"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_38.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_39"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_39.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_40"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_40.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_41"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_41.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_42"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_42.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_43"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_43.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_44"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_44.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_45"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_45.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_46"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_46.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_47"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_47.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_48"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_48.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_49"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_49.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_50"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_50.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_51"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_51.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_52"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_52.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_53"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_53.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_54"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_54.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_55"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_55.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_56"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_56.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_57"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_57.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_58"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_58.png"
+    />
+    <img
+      crossorigin="Anonymous"
+      id="mask_59"
+      class="hidden"
+      src="https://images.bria.ai/mask2click/masks/86f9986390596e8f/86f9986390596e8f_59.png"
+    />
+
+    <script>
+      function debounce(func, timeout = 50) {
+        let timer;
+        return (...args) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            func.apply(this, args);
+          }, timeout);
+        };
+      }
+
+      const getImagePixelsData = (image, width, height) => {
+        let imagePixelsData = undefined;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(
+            image,
+            0,
+            0,
+            image.width,
+            image.height,
+            0,
+            0,
+            width,
+            height
+          );
+          imagePixelsData = ctx.getImageData(0, 0, width, height);
+        }
+
+        return { imagePixelsData, ctx };
+      };
+
+      const getImageMeta = (url, callback) => {
+        const image = new Image();
+        image.addEventListener("load", () => callback(image));
+        image.addEventListener("error", (error) => reject(error));
+        image.setAttribute("crossOrigin", "anonymous");
+        image.src = url;
+      };
+
+      const getMaskIndex = (e, panopticImageData, panopticImage, canvas) => {
+        const widthRatio = panopticImage.width / canvas.clientWidth;
+        const heightRatio = panopticImage.height / canvas.clientHeight;
+        const mousePosX = Math.round(e.offsetX * widthRatio);
+        const mousePosY = Math.round(e.offsetY * heightRatio);
+        const pixelIndex = (mousePosY * panopticImage.width + mousePosX) * 4;
+        const maskIndex = panopticImageData.data[pixelIndex] - 1;
+        return maskIndex;
+      };
+
+      const scaledImageWidth = 900;
+      const scaledImageHeight = 600;
+      const numberOfMasks = 59;
+      let oldIndex = 0;
+      window.onload = () => {
+        const mainImage = document.getElementById("main_image");
+        const panopticImage = document.getElementById("panoptic_img");
+        const panopticImageData = getImagePixelsData(
+          panopticImage,
+          panopticImage.width,
+          panopticImage.height
+        );
+        const masks = [];
+        for (let i = 1; i <= numberOfMasks; i++) {
+          masks.push(document.getElementById("mask_" + i));
+        }
+        const samCanvas = document.getElementById("sam_canvas");
+        samCanvas.width = scaledImageWidth;
+        samCanvas.height = scaledImageHeight;
+        const samCanvasContext = samCanvas.getContext("2d");
+        samCanvasContext.drawImage(
+          mainImage,
+          0,
+          0,
+          mainImage.width,
+          mainImage.height,
+          0,
+          0,
+          samCanvas.width,
+          samCanvas.height
+        );
+
+        samCanvas.addEventListener("mouseup", (e) => {
+          const maskIndex = getMaskIndex(
+            e,
+            panopticImageData.imagePixelsData,
+            panopticImage,
+            samCanvas
+          );
+          const maskImage = masks[maskIndex];
+          alert(
+            "clicked mask index: " +
+              (maskIndex + 1) +
+              ", mask URL: " +
+              maskImage.src
+          );
+          // send remove obj by mask url API
+        });
+        samCanvas.addEventListener(
+          "mouseout",
+          debounce((e) => {
+            samCanvasContext.drawImage(
+              mainImage,
+              0,
+              0,
+              mainImage.width,
+              mainImage.height,
+              0,
+              0,
+              samCanvas.width,
+              samCanvas.height
+            );
+          })
+        );
+        samCanvas.addEventListener(
+          "mousemove",
+          debounce((e) => {
+            const maskIndex = getMaskIndex(
+              e,
+              panopticImageData.imagePixelsData,
+              panopticImage,
+              samCanvas
+            );
+            if (maskIndex && oldIndex !== maskIndex) {
+              oldIndex = maskIndex;
+              const maskImage = masks[maskIndex];
+              const imageData = getImagePixelsData(
+                mainImage,
+                scaledImageWidth,
+                scaledImageHeight
+              );
+              const maskData = getImagePixelsData(
+                maskImage,
+                scaledImageWidth,
+                scaledImageHeight
+              );
+              if (imageData.imagePixelsData && maskData.imagePixelsData) {
+                for (
+                  let i = 0, len = imageData.imagePixelsData.data.length;
+                  i < len;
+                  i = i + 4
+                ) {
+                  if (maskData.imagePixelsData.data[i] === 255) {
+                    imageData.imagePixelsData.data[i] = 83;
+                    imageData.imagePixelsData.data[i + 1] = 0;
+                    imageData.imagePixelsData.data[i + 2] = 201;
+                    imageData.imagePixelsData.data[i + 3] = 100;
+                  }
+                }
+                imageData.ctx.putImageData(imageData.imagePixelsData, 0, 0);
+                getImageMeta(
+                  imageData.ctx.canvas.toDataURL(),
+                  (newImageElement) => {
+                    samCanvasContext.drawImage(
+                      newImageElement,
+                      0,
+                      0,
+                      newImageElement.width,
+                      newImageElement.height,
+                      0,
+                      0,
+                      samCanvas.width,
+                      samCanvas.height
+                    );
+                  }
+                );
+              }
+            }
+          })
+        );
+      };
+    </script>
+  </body>
+</html>
