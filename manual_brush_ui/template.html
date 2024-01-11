@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brush Drawing</title>
+  <style>
+    #canvasContainer {
+      position: relative;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px solid #000;
+    }
+
+    #brushCanvas {
+      opacity: 0.6;
+    }
+
+    #buttonContainer {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    #removeObjButton {
+      display: block;
+    }
+
+    #lineWidthSlider {
+      margin-bottom: 10px;
+    }
+
+    #resultMaskImageContainer {
+      position: absolute;
+      left: 520px;
+    }
+    #resultMaskImage {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="buttonContainer">
+      <label for="lineWidthSlider">Brush Size:</label>
+      <input type="range" id="lineWidthSlider" min="1" max="100" value="50">
+      <button id="removeObjButton">Remove Objects</button>
+    </div>
+    <div id="canvasContainer">
+      <canvas id="imageCanvas"></canvas>
+      <canvas id="brushCanvas"></canvas>
+    </div>
+    <div id="resultMaskImageContainer">
+      <img id="resultMaskImage" alt="Result Mask Image">
+    </div>
+  </div>
+
+  <script>
+    const CANVAS_WIDTH_PX = 500;
+    document.addEventListener("DOMContentLoaded", function() {
+      const imageCanvas = document.getElementById("imageCanvas");
+      const brushCanvas = document.getElementById("brushCanvas");
+      const resultMaskImage = document.getElementById("resultMaskImage");
+      const removeObjButton = document.getElementById("removeObjButton");
+      const lineWidthSlider = document.getElementById("lineWidthSlider");
+
+
+      const imageContext = imageCanvas.getContext("2d");
+      const brushContext = brushCanvas.getContext("2d");
+
+      const sourceImage = document.createElement("img");
+      sourceImage.src = "https://temp.bria.ai/images/86f9986390596e8f.jpg"; // Replace with the actual image path
+
+      sourceImage.onload = function() {
+        // Calculate new dimensions while maintaining aspect ratio
+        const aspectRatio = sourceImage.width / sourceImage.height;
+        const newWidth = CANVAS_WIDTH_PX;
+        const newHeight = newWidth / aspectRatio;
+
+        imageCanvas.width = newWidth;
+        imageCanvas.height = newHeight;
+        brushCanvas.width = newWidth;
+        brushCanvas.height = newHeight;
+
+        imageContext.drawImage(sourceImage, 0, 0, newWidth, newHeight);
+
+        let isDrawing = false;
+
+        // Store the starting position of the brush stroke
+        let startX, startY;
+
+        // Set up event listeners
+        brushCanvas.addEventListener("mousedown", startDrawing);
+        brushCanvas.addEventListener("mousemove", draw);
+        document.addEventListener("mouseup", stopDrawing);
+        document.addEventListener("mouseout", stopDrawing);
+        removeObjButton.addEventListener("click", clearCanvasAndGetMask);
+
+        function startDrawing(e) {
+          // Clear the brush canvas before starting a new drawing
+          brushContext.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
+
+          isDrawing = true;
+          // Reset the starting position of the brush stroke
+          startX = e.clientX - brushCanvas.getBoundingClientRect().left;
+          startY = e.clientY - brushCanvas.getBoundingClientRect().top;
+          draw(e);
+        }
+
+        function draw(e) {
+          if (!isDrawing) return;
+
+          const x = e.clientX - brushCanvas.getBoundingClientRect().left;
+          const y = e.clientY - brushCanvas.getBoundingClientRect().top;
+
+          brushContext.globalCompositeOperation = "source-over";
+          brushContext.lineWidth = lineWidthSlider.value;
+          brushContext.lineCap = "round";
+          brushContext.lineJoin= "round";
+          brushContext.strokeStyle= "#8800FF";
+
+          // Move to the starting position of the brush stroke
+          brushContext.moveTo(startX, startY);
+          brushContext.lineTo(x, y);
+          brushContext.stroke();
+
+          // Update the starting position for the next stroke segment
+          startX = x;
+          startY = y;
+        }
+
+        function stopDrawing() {
+          if (isDrawing) {
+            isDrawing = false;
+          }
+        }
+
+        function clearCanvasAndGetMask() {
+          const maskBase64 = extractMask();
+          console.log("Mask extracted!");
+          console.log("Base64 Mask:", maskBase64);
+
+          // Clear the main brush canvas
+          brushContext.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
+          brushContext.beginPath();
+          resultMaskImage.src = maskBase64;
+
+        }
+
+        function extractMask() {
+          const imageData = brushContext.getImageData(0, 0, brushCanvas.width, brushCanvas.height);
+          const maskCanvas = document.createElement("canvas");
+          const maskContext = maskCanvas.getContext("2d");
+
+          maskCanvas.width = brushCanvas.width;
+          maskCanvas.height = brushCanvas.height;
+
+          for (let i = 0; i < imageData.data.length; i += 4) {
+            const isFilled = imageData.data[i + 3] !== 0;
+            const maskValue = isFilled ? 255 : 0;
+
+            imageData.data[i] = maskValue;
+            imageData.data[i + 1] = maskValue;
+            imageData.data[i + 2] = maskValue;
+            imageData.data[i + 3] = 255;
+          }
+
+          maskContext.putImageData(imageData, 0, 0);
+
+          // Convert mask to base64
+          return maskCanvas.toDataURL("image/png");
+        }
+      };
+    });
+  </script>
+</body>
+</html>
