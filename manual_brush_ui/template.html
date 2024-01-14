@@ -38,6 +38,7 @@
       left: 520px;
     }
     #resultMaskImage {
+      width: 500px;
       border: 1px solid #000;
     }
   </style>
@@ -54,12 +55,14 @@
       <canvas id="brushCanvas"></canvas>
     </div>
     <div id="resultMaskImageContainer">
-      <img id="resultMaskImage" alt="Result Mask Image">
+      <img id="resultMaskImage" alt="Result Image">
     </div>
   </div>
 
   <script>
     const CANVAS_WIDTH_PX = 500;
+    const BRIA_API_TOKEN = "<YOUR BRIA API TOKEN>";
+    const IMAGE_VISUAL_HASH = "86f9986390596e8f"
     document.addEventListener("DOMContentLoaded", function() {
       const imageCanvas = document.getElementById("imageCanvas");
       const brushCanvas = document.getElementById("brushCanvas");
@@ -97,7 +100,7 @@
         brushCanvas.addEventListener("mousemove", draw);
         document.addEventListener("mouseup", stopDrawing);
         document.addEventListener("mouseout", stopDrawing);
-        removeObjButton.addEventListener("click", clearCanvasAndGetMask);
+        removeObjButton.addEventListener("click", removeObj);
 
         function startDrawing(e) {
           // Clear the brush canvas before starting a new drawing
@@ -138,16 +141,46 @@
           }
         }
 
-        function clearCanvasAndGetMask() {
+        async function removeObj() {
           const maskBase64 = extractMask();
-          console.log("Mask extracted!");
-          console.log("Base64 Mask:", maskBase64);
 
           // Clear the main brush canvas
           brushContext.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
           brushContext.beginPath();
-          resultMaskImage.src = maskBase64;
 
+          const imageRes = await callRemoveObj(maskBase64);
+          resultMaskImage.src = imageRes;
+        }
+
+        async function callRemoveObj(masKImageUrl) {
+            const query = new URLSearchParams({
+              desired_resolution: 'original',
+              original_quality: 'true'
+            }).toString();
+
+            const resp = await fetch(
+              `https://engine.prod.bria-api.com/v1/${IMAGE_VISUAL_HASH}/objects/remove?${query}`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  api_token: BRIA_API_TOKEN
+                },
+                body: JSON.stringify({
+                  enhance: true,
+                  changes: [
+                    {
+                      mask_url: masKImageUrl,
+                      mask_source: 'manual',
+                      actions: {remove: true}
+                    }
+                  ]
+                })
+              }
+            );
+
+            const data = await resp.json();
+            return data.image_res;
         }
 
         function extractMask() {
