@@ -62,7 +62,6 @@
   <script>
     const CANVAS_WIDTH_PX = 500;
     const BRIA_API_TOKEN = "<YOUR BRIA API TOKEN>";
-    const IMAGE_VISUAL_HASH = "86f9986390596e8f"
     document.addEventListener("DOMContentLoaded", function() {
       const imageCanvas = document.getElementById("imageCanvas");
       const brushCanvas = document.getElementById("brushCanvas");
@@ -75,7 +74,7 @@
       const brushContext = brushCanvas.getContext("2d");
 
       const sourceImage = document.createElement("img");
-      sourceImage.src = "https://temp.bria.ai/images/86f9986390596e8f.jpg"; // Replace with the actual image path
+      sourceImage.src = "https://labs-assets.bria.ai/demo/86f9986390596e8f.jpg"; // Replace with the actual image path
 
       sourceImage.onload = function() {
         // Calculate new dimensions while maintaining aspect ratio
@@ -148,39 +147,52 @@
           brushContext.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
           brushContext.beginPath();
 
-          const imageRes = await callRemoveObj(maskBase64);
+          const imageRes = await callEraseV2(maskBase64);
           resultMaskImage.src = imageRes;
         }
 
-        async function callRemoveObj(masKImageUrl) {
-            const query = new URLSearchParams({
-              desired_resolution: 'original',
-              original_quality: 'true'
-            }).toString();
+        async function callEraseV2(maskBase64) {
+            const imageBase64 = sourceImage.src;
+            const requestBody = {
+              image: imageBase64,
+              mask: maskBase64,
+              mask_type: 'manual',
+            };
 
             const resp = await fetch(
-              `https://engine.prod.bria-api.com/v1/${IMAGE_VISUAL_HASH}/objects/remove?${query}`,
+              'https://engine.prod.bria-api.com/v2/image/edit/erase',
               {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                   api_token: BRIA_API_TOKEN
                 },
-                body: JSON.stringify({
-                  enhance: true,
-                  changes: [
-                    {
-                      mask_url: masKImageUrl,
-                      mask_source: 'manual',
-                      actions: {remove: true}
-                    }
-                  ]
-                })
+                body: JSON.stringify(requestBody)
               }
             );
 
             const data = await resp.json();
-            return data.image_res;
+
+            const statusUrl = (data && (data.status_url || (data.result && data.result.status_url))) || null;
+            if (!statusUrl) {
+              throw new Error('Missing status URL in response');
+            }
+
+            // Poll status URL until image_url is available
+            const pollIntervalMs = 2000;
+            const maxAttempts = 120; // ~4 minutes
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+              const statusResp = await fetch(statusUrl, {
+                headers: { api_token: BRIA_API_TOKEN }
+              });
+              const statusData = await statusResp.json();
+              if (statusData && statusData.result && statusData.result.image_url) {
+                return statusData.result.image_url;
+              }
+              await new Promise(r => setTimeout(r, pollIntervalMs));
+            }
+
+            throw new Error('Timeout waiting for erase result');
         }
 
         function extractMask() {
@@ -203,8 +215,9 @@
 
           maskContext.putImageData(imageData, 0, 0);
 
-          // Convert mask to base64
-          return maskCanvas.toDataURL("image/png");
+          const dataUrl = maskCanvas.toDataURL("image/png");
+          const commaIdx = dataUrl.indexOf(',');
+          return commaIdx !== -1 ? dataUrl.slice(commaIdx + 1) : dataUrl;
         }
       };
     });
